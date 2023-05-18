@@ -40,16 +40,28 @@ type menuContext = "formDesigner" | "promptBuilderSwap" | "promptBuilderAdd";
 type menuActions = Array<MenuEventAction>;
 type subMenuActions = Array<SubMenuEventAction>;
 
+type selection = {
+  selectedValue: string;
+  startOffset: number;
+  endOffset: number;
+  nodeBlockIndex: number;
+};
+
 type State = {
   menuContext: menuContext;
   menuActions: menuActions;
   subMenuActions: subMenuActions;
   subMenuOpen: boolean;
-  currentValue: string;
+  currentSelection: selection;
 };
 
 type Action = {
-  changeCurrentSelection: (arg?: string) => void;
+  changeCurrentSelection: (
+    arg: string,
+    startOffset: number,
+    endOffset: number,
+    nodeBlockIndex: number
+  ) => void;
   changeContext: (arg: menuContext) => void;
   toggleSubMenu: (arg: boolean) => void;
   reset: () => void;
@@ -59,7 +71,13 @@ const initialState: State = {
   menuActions: getMenuActionForContext("promptBuilderAdd"),
   subMenuActions: [],
   subMenuOpen: false,
-  currentValue: "",
+  currentSelection: {
+    selectedValue: "",
+    startOffset: 0,
+    endOffset: 0,
+    nodeBlockIndex: 0,
+  },
+
   menuContext: "promptBuilderAdd",
 };
 
@@ -85,7 +103,20 @@ export const createContextMenuStore: StateCreator<State & Action> = (set) => ({
       menuContext: arg,
       menuActions: getMenuActionForContext(arg),
     }),
-  changeCurrentSelection: (arg) => set({ currentValue: arg }),
+  changeCurrentSelection: (
+    selectedValue,
+    startOffset,
+    endOffset,
+    nodeBlockIndex
+  ) =>
+    set({
+      currentSelection: {
+        selectedValue,
+        startOffset,
+        endOffset,
+        nodeBlockIndex,
+      },
+    }),
   toggleSubMenu: (arg) => set({ subMenuOpen: arg }),
   reset: () => set(initialState),
 });

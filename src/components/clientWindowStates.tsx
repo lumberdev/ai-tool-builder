@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import { useContextMenuStoreData } from "~/store/hooks";
 
 export const ClientWindowStates = () => {
-  const { handleChangeCurrentSelection, currentValue } =
+  const { handleChangeCurrentSelection, currentSelection } =
     useContextMenuStoreData();
 
   useEffect(() => {
@@ -29,5 +29,9 @@ export const ClientWindowStates = () => {
       });
     };
   }, [handleChangeCurrentSelection]);
-  return <div className="absolute left-0 top-0">{currentValue}</div>;
+  return (
+    <div className="absolute left-0 top-0">
+      {JSON.stringify(currentSelection)}
+    </div>
+  );
 };

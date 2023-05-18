@@ -19,6 +19,7 @@ type State = {
 type Action = {
   addFormData: (arg: FormRecord) => void;
   modifyFormData: (arg: FormRecord) => void;
+  setFormData: (arg: Array<FormRecord>) => void;
   deleteFormData: (id: string) => void;
   reset: () => void;
 };
@@ -57,6 +58,7 @@ export const createPromptBuilderStore: StateCreator<PromptBuilderStore> = (
   set
 ) => ({
   ...initialState,
+  setFormData: (arg) => set({ formData: arg }),
   addFormData: (arg) =>
     set((state) => ({
       // set merges state at one level, nested objects need explicit merge
