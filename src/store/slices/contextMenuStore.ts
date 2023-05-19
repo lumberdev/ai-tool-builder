@@ -1,4 +1,5 @@
 import { StateCreator, create } from "zustand";
+import { usePromptBuilderStore } from "..";
 
 class SubMenuEventAction {
   title: string;
@@ -33,7 +34,11 @@ class MenuEventAction {
 
 const Add = new MenuEventAction("Add", true, () => {});
 const Swap = new MenuEventAction("Swap", true, () => {});
-const Run = new MenuEventAction("Run", true, () => {});
+const Run = new MenuEventAction(
+  "Run",
+  true,
+  () => usePromptBuilderStore.getState().getResponse() // callback to avoid initialization error
+);
 
 type menuContext = "formDesigner" | "promptBuilderSwap" | "promptBuilderAdd";
 

@@ -1,4 +1,6 @@
 import { StateCreator, create } from "zustand";
+import { callOpenAiWithPromptData } from "~/queries/OpenAi";
+import { usePromptBuilderStore } from "..";
 
 enum RecordType {
   PROMPT_TEXT_TYPE, // Only shows in prompt editor
@@ -14,18 +16,21 @@ type FormRecord = {
 
 type State = {
   formData: Array<FormRecord>;
+  responseData: string;
 };
 
 type Action = {
   addFormData: (arg: FormRecord) => void;
   modifyFormData: (arg: FormRecord) => void;
   setFormData: (arg: Array<FormRecord>) => void;
+  getResponse: () => Promise<void>;
   deleteFormData: (id: string) => void;
   reset: () => void;
 };
 
 const initialState: State = {
   formData: [],
+  responseData: "",
 };
 
 const modifyArrayItemById = (
@@ -52,6 +57,19 @@ const deleteArrayItemById = (id: string, array: Array<any>) => {
   return [...array.slice(0, index), array.slice(index + 1, array.length)];
 };
 
+const extractValuesFromFormData = (formData: Array<FormRecord>) => {
+  const extractedData = formData
+    .map((block) => block.data?.text ?? block.data?.value)
+    .join(" ");
+
+  return extractedData;
+};
+
+const getResponseData = async (formData: Array<FormRecord>) => {
+  const userData = extractValuesFromFormData(formData);
+  return (await callOpenAiWithPromptData(userData))?.content;
+};
+
 export type PromptBuilderStore = State & Action;
 
 export const createPromptBuilderStore: StateCreator<PromptBuilderStore> = (
@@ -59,6 +77,13 @@ export const createPromptBuilderStore: StateCreator<PromptBuilderStore> = (
 ) => ({
   ...initialState,
   setFormData: (arg) => set({ formData: arg }),
+  getResponse: async () => {
+    const formData = usePromptBuilderStore.getState().formData;
+    const data = await getResponseData(formData);
+    set({
+      responseData: data,
+    });
+  },
   addFormData: (arg) =>
     set((state) => ({
       // set merges state at one level, nested objects need explicit merge

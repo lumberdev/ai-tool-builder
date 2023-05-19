@@ -1,12 +1,13 @@
 import { EditorComponent } from "~/components/Editor";
 import { MenuSection } from "~/components/MenuSection";
+import ResultSection from "~/components/ResultSection";
 import { ClientWindowStates } from "~/components/clientWindowStates";
 import { usePromptBuilderStore } from "~/store";
 
 export default function Home() {
   return (
     <main className="flex h-screen flex-col items-center justify-between p-24">
-      <input />
+      <ResultSection />
       <EditorComponent />
       <div className="fixed bottom-0 w-full">
         <MenuSection />
