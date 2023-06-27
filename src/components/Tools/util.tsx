@@ -1,7 +1,9 @@
 import { FunctionComponent, createElement } from "react";
 import ReactDOM from "react-dom";
 import { Root, createRoot } from "react-dom/client";
+import { createOptionItem } from "./SimpleDropdown";
 
+/** Handle Tool Creation */
 type CreateEditorJsPluginOptions<T> = {
   toolbox: {
     title: string;
@@ -43,7 +45,6 @@ export function createEditorJsPlugin<T>(
     _root: Root;
 
     constructor({ data }: { data: T }) {
-      console.log(data);
       this._container = document.createElement("div");
       this._root = createRoot(this._container, { identifierPrefix: "adfsfds" });
       this._data = data ?? initialData;
@@ -85,4 +86,34 @@ export function createEditorJsPlugin<T>(
       );
     }
   };
+}
+
+/** Handle Tool serialization */
+export function createBlockFromText(blockType: string, value: string) {
+  let options = [];
+  let returnValue: [string, Record<string, any>] | [] = [];
+  switch (blockType) {
+    case "simpleInput":
+      returnValue = [blockType, { value: value, placeholder: "", label: "" }];
+      break;
+    case "paragraph":
+      returnValue = [blockType, { text: value }];
+      break;
+    case "simpleDropdown":
+      (options = value
+        .replace(/,+/g, "")
+        .split(" ")
+        .map((option) => createOptionItem(option))),
+        (returnValue = [
+          blockType,
+          {
+            value: options?.[0]?.value,
+            options,
+          },
+        ]);
+      break;
+    default:
+      break;
+  }
+  return returnValue;
 }

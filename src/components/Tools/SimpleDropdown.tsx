@@ -3,7 +3,7 @@ import { EditorJsPluginProps, createEditorJsPlugin } from "./util";
 import { nanoid } from "nanoid";
 
 type Props = {
-  value: "";
+  value: string;
   options: Array<{ value: string; id: string }>;
 };
 
@@ -18,36 +18,43 @@ const SimpleDropDown: FunctionComponent<Props & EditorJsPluginProps<Props>> = (
 ) => {
   const { dispatchData, options = [], value } = props;
 
-  const [data, setData] = useState("");
+  const [data, setData] = useState<string>("");
   const [list, setList] = useState<Array<OptionItem>>(options);
 
-  function handleSubmit(event) {
+  function handleSubmit(event: React.FormEvent) {
     event?.preventDefault();
     const newListItem = createOptionItem(data);
     setList((state) => {
       const changed = [...state, newListItem];
-      dispatchData({ options: changed });
+      dispatchData({ options: changed, value });
       return changed;
     });
+    setData("");
   }
 
-  const [currentValue, setCurrentValue] = useState(value);
+  const [currentValue, setCurrentValue] = useState<string>(value);
 
-  const handleChangeDropdown = (event) => {
+  const handleChangeDropdown = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
     setCurrentValue(event.target.value);
     dispatchData({ options, value: event.target.value });
   };
 
   return (
     <>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} className="flex flex-col">
         <label htmlFor="optionInput">Enter Options</label>
-        <input
-          onChange={(event) => {
-            setData(event.target.value);
-          }}
-        />
-        <button>+</button>
+        <div>
+          <input
+            className="rounded-sm border-2"
+            onChange={(event) => {
+              setData(event.target.value);
+            }}
+            value={data}
+          />
+          <button type="submit">+</button>
+        </div>
       </form>
 
       <select

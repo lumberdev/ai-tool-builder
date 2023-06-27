@@ -1,62 +1,11 @@
-import { StateCreator, create } from "zustand";
+import { StateCreator } from "zustand";
 import { usePromptBuilderStore } from "..";
-
-class SubMenuEventAction {
-  title: string;
-  action: (arg: any) => any;
-  icon: string;
-
-  constructor(title: string, icon: string, action: (arg: any) => any) {
-    this.title = title;
-    this.icon = icon;
-    this.action = action;
-  }
-}
-
-class MenuEventAction {
-  title: string;
-  show: boolean;
-  action: (arg: any) => any;
-
-  constructor(title: string, show: boolean, action: (arg: any) => any) {
-    this.title = title;
-    this.show = show;
-    this.action = action;
-  }
-  /** Provide a state boolean to hide or show the menu item or provide empty to toggle */
-  toggleShow(state?: boolean) {
-    if (typeof state === "boolean") {
-      return (this.show = state);
-    }
-    this.show = !this.show;
-  }
-}
-
-const Add = new MenuEventAction("Add", true, () => {});
-const Swap = new MenuEventAction("Swap", true, () => {});
-const Run = new MenuEventAction(
-  "Run",
-  true,
-  () => usePromptBuilderStore.getState().getResponse() // callback to avoid initialization error
-);
-
-type menuContext = "formDesigner" | "promptBuilderSwap" | "promptBuilderAdd";
-
-type menuActions = Array<MenuEventAction>;
-type subMenuActions = Array<SubMenuEventAction>;
-
-type selection = {
-  selectedValue: string;
-  startOffset: number;
-  endOffset: number;
-  nodeBlockIndex: number;
-};
+import { menuActions, menuContext, selection } from "~/utils/types";
+import { Add, Run, Swap } from "~/utils/MenuActions";
 
 type State = {
   menuContext: menuContext;
   menuActions: menuActions;
-  subMenuActions: subMenuActions;
-  subMenuOpen: boolean;
   currentSelection: selection;
 };
 
@@ -68,14 +17,11 @@ type Action = {
     nodeBlockIndex: number
   ) => void;
   changeContext: (arg: menuContext) => void;
-  toggleSubMenu: (arg: boolean) => void;
   reset: () => void;
 };
 
 const initialState: State = {
   menuActions: getMenuActionForContext("promptBuilderAdd"),
-  subMenuActions: [],
-  subMenuOpen: false,
   currentSelection: {
     selectedValue: "",
     startOffset: 0,
@@ -122,6 +68,5 @@ export const createContextMenuStore: StateCreator<State & Action> = (set) => ({
         nodeBlockIndex,
       },
     }),
-  toggleSubMenu: (arg) => set({ subMenuOpen: arg }),
   reset: () => set(initialState),
 });

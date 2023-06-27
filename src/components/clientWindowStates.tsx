@@ -14,8 +14,14 @@ export const ClientWindowStates = () => {
       "touchend",
     ];
     function checkHighlight() {
-      if (window.getSelection) {
-        handleChangeCurrentSelection(window.getSelection()?.toString() ?? "");
+      const selection = window.getSelection();
+      if (selection) {
+        handleChangeCurrentSelection(
+          selection?.toString() ?? "",
+          selection?.anchorOffset as number,
+          selection?.focusOffset as number,
+          0
+        );
       }
     }
 

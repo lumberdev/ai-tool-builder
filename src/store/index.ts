@@ -9,18 +9,6 @@ import {
   createContextMenuStore,
 } from "./slices/contextMenuStore";
 
-// interface BoundStore {
-//   promptBuilderStore: PromptBuilderStore;
-//   contextMenuStore: ContextMenuStore;
-// }
-
-// export const useBoundStore = create<BoundStore>()(
-//   devtools((...a) => ({
-//     promptBuilderStore: createPromptBuilderStore(...a),
-//     contextMenuStore: createContextMenuStore(...a),
-//   }))
-// );
-
 export const usePromptBuilderStore = create<PromptBuilderStore>()(
   devtools(
     (...a) => ({

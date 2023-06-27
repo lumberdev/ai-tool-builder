@@ -1,4 +1,4 @@
-import { EditorComponent } from "~/components/Editor";
+import { EditorComponent } from "~/components/editor/Editor";
 import { MenuSection } from "~/components/MenuSection";
 import ResultSection from "~/components/ResultSection";
 import { ClientWindowStates } from "~/components/clientWindowStates";

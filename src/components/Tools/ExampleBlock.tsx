@@ -75,7 +75,7 @@ const Content: FunctionComponent<{
   return <input value={text} onChange={handleTextChange} />;
 };
 
-export { ExampleReactBlockTool };
+export { CreateReactBlockTool };
 export type {
   ExampleReactBlockToolDispatchData,
   ExampleReactBlockToolData,
