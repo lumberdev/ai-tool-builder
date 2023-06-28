@@ -6,12 +6,11 @@ import {
   useState,
 } from "react";
 import EditorJS, { BlockAPI } from "@editorjs/editorjs";
-import SimpleDropdown from "../../Tools/SimpleDropdown";
-import SimpleInput from "../../Tools/SimpleInput";
 import { useContextMenuStoreData } from "~/store/hooks";
 import { usePromptBuilderStore } from "~/store";
-import { createBlockFromText } from "../../Tools/util";
+import { createBlockFromText } from "~/utils/toolUtils";
 import { EventListenerArray, FormRecord } from "~/utils/types";
+import { SimpleDropdownTool, SimpleInputTool } from "~/components/Tools";
 
 const EDITOR_ID = "editor";
 const FOCUS = true;
@@ -55,8 +54,8 @@ export const useEditorController = () => {
                 }
               }
             */
-        simpleDropdown: SimpleDropdown,
-        simpleInput: SimpleInput,
+        simpleDropdown: SimpleDropdownTool,
+        simpleInput: SimpleInputTool,
         paragraph: {
           inlineToolbar: false,
           toolbox: {
@@ -73,7 +72,6 @@ export const useEditorController = () => {
 
       onChange: async () => {
         let content = await editorRef.current?.save();
-
         if (content?.blocks) setFormData(content.blocks as FormRecord[]);
       },
     });

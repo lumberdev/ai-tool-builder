@@ -1,9 +1,12 @@
 import { FunctionComponent, createElement } from "react";
 import ReactDOM from "react-dom";
 import { Root, createRoot } from "react-dom/client";
-import { createOptionItem } from "./SimpleDropdown";
+import { createOptionItem } from "../components/Tools/SimpleDropdown";
 
-/** Handle Tool Creation */
+/**
+ * Handle Tool Creation
+ * https://gist.github.com/donfour/82193ab0c138afcc8c840c7a79474db4
+ */
 type CreateEditorJsPluginOptions<T> = {
   toolbox: {
     title: string;

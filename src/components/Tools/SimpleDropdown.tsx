@@ -1,5 +1,8 @@
 import { ChangeEventHandler, FunctionComponent, useState } from "react";
-import { EditorJsPluginProps, createEditorJsPlugin } from "./util";
+import {
+  EditorJsPluginProps,
+  createEditorJsPlugin,
+} from "../../utils/toolUtils";
 import { nanoid } from "nanoid";
 
 type Props = {
@@ -13,9 +16,9 @@ export function createOptionItem(value: string) {
   return { id: nanoid(), value };
 }
 
-const SimpleDropDown: FunctionComponent<Props & EditorJsPluginProps<Props>> = (
-  props
-) => {
+export const SimpleDropDown: FunctionComponent<
+  Props & EditorJsPluginProps<Props>
+> = (props) => {
   const { dispatchData, options = [], value } = props;
 
   const [data, setData] = useState<string>("");

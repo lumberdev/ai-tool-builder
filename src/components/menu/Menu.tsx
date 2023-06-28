@@ -1,4 +1,4 @@
-import { MenuButton } from "../MenuButton";
+import { MenuButton } from "./MenuButton";
 
 type MenuProps = {
   menuItems: Array<{

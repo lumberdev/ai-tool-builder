@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import { Menu } from "~/storybook-components";
+import { Menu } from "~/components/menu";
 
 const meta: Meta<typeof Menu> = {
   title: "Design/Menu",

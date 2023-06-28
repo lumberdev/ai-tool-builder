@@ -1,5 +1,5 @@
-import { ChangeEventHandler, FunctionComponent, useState } from "react";
-import { EditorJsPluginProps, createEditorJsPlugin } from "./util";
+import { FunctionComponent, useState } from "react";
+import { EditorJsPluginProps, createEditorJsPlugin } from "~/utils/toolUtils";
 
 type Props = {
   type: string;
@@ -8,9 +8,9 @@ type Props = {
   placeholder: string;
 };
 
-const SimpleInput: FunctionComponent<Props & EditorJsPluginProps<Props>> = (
-  props
-) => {
+export const SimpleInput: FunctionComponent<
+  Props & EditorJsPluginProps<Props>
+> = (props) => {
   const { dispatchData, value, placeholder, label, type } = props;
   const showEditModeByDefault = !label && !placeholder;
   const [editMode, setEditMode] = useState(showEditModeByDefault);

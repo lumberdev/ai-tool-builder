@@ -47,7 +47,7 @@ export const EditorComponent = () => {
           </button>
         </div>
       </Modal>
-      <div className="relative min-w-full p-4 sm:w-screen">
+      <div className="relative h-full min-w-full md:p-4">
         <div ref={ref} id={id} className="w-full rounded-md bg-white p-2" />
       </div>
     </>

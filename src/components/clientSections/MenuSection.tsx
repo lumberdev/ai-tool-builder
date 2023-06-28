@@ -1,7 +1,7 @@
 "use client";
 
-import { Menu } from "~/storybook-components";
-import { KeyboardAdjustedComponent } from "./keyboardDetector";
+import { Menu } from "~/components/menu";
+import { KeyboardAdjustedComponent } from "../utilComponents/keyboardDetector";
 import { useContextMenuStoreData } from "~/store/hooks";
 
 export const MenuSection = () => {

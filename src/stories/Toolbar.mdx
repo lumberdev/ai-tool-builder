@@ -1,0 +1,89 @@
+import { Meta } from "@storybook/blocks";
+import Image from "next/image";
+
+import Code from "./assets/code-brackets.svg";
+import Colors from "./assets/colors.svg";
+import Comments from "./assets/comments.svg";
+import Direction from "./assets/direction.svg";
+import Flow from "./assets/flow.svg";
+import Plugin from "./assets/plugin.svg";
+import Repo from "./assets/repo.svg";
+import StackAlt from "./assets/stackalt.svg";
+
+<Meta title="FormToolBar/Introduction" />
+
+# Form Tools
+
+## What Are they
+
+Tools are plugins that can be added to EditorJS. They are used to add functionality, such as adding a list or an image. In our case we are building custom tools to inject special form inputs into the editor.
+
+Custom tools give us the flexibility to create and store blocks in EditorJS in any way we want.
+
+## Creating a Custom Tool
+
+To create custom tools, you'll need to make use of the `createEditorJsPlugin` function. It accepts an object called `toolbox` which contains the title of the tool that will be shown in the Editor menus, the icon that will be displayed.
+It also accepts a `configuration` options object,`initialData`, and a `component`. See more configuration info in the official docs [EditorJS](https://editorjs.io/the-first-plugin/).
+
+`initialData` will be used to set the initial data props for the component.
+
+Note: Each tool should make use of the `value` prop. This is what gets serialized on request to OpenAI when the form is submitted.
+
+```ts
+export default createEditorJsPlugin<Props>
+  {
+    toolbox: {
+      title: "Input",
+      icon: "<svg>...</svg>",
+    },
+    configuration: { readOnly: true },
+    initialData: { value: "", ... },
+    component: YourNewToolComponent,
+  };
+```
+
+The component should accept a `dispatchData` function and call that whenever the input changes.
+This dispatches a change to the EditorJS data allowing us to fetch the updated data on EditorJS `save()`.
+
+## Adding The Tool to the Editor
+
+To add the tool to the editor, navigate to the `EditorContext.tsx` file under `useEditorController` and add the tool (the exported `createEditorJsPlugin` created) in the tools object
+
+```ts
+useEffect(() => {
+    editorRef.current = new EditorJS({
+        ...
+        tools: {
+            ...
+            YourNewTool: YourNewTool
+            ...
+        }
+    })
+    ...
+}, [])
+```
+
+## Ensuring the Tool Can Be Swapped with Normal Text
+
+A tool like an input or a dropdown tool should have the ability to get a highlighted value from the Paragraph inputs and inject that data into the swapped tool. `createBlockFromText` let's us do that.
+
+Add the toolname for your tool in the switch case and handle massaging the `value` to match your tool's data.
+
+```ts
+export function createBlockFromText(blockType: string, value: string) {
+ let returnValue = []
+ ...
+ switch (blockType) {
+    ...
+    case "YourNewTool":
+      returnValue = [blockType, { value: value, placeholder: "", label: "" }];
+      break;
+      ...
+ }
+ return returnValue;
+}
+```
+
+## Preview a Tool in storybook
+
+To preview a tool in storybook, export the component (not the plugin creation component) and create a story for it.
