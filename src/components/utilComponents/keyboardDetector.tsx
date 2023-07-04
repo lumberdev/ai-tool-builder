@@ -2,7 +2,7 @@
 
 import { PropsWithChildren, useEffect, useRef, useState } from "react";
 /**
- * On mobile ios, if the virtual keyboard is activated and visualViewport
+ * On mobile (tested on ios), if the virtual keyboard is activated and visualViewport
  * is supported, the children in this will moved up above the keyboard
  */
 export const KeyboardAdjustedComponent = ({ children }: PropsWithChildren) => {
