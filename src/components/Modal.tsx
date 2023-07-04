@@ -22,8 +22,8 @@ type ModalProps = {
 
 const Modal = forwardRef(
   ({ isDefaultOpen = false, children }: ModalProps, ref) => {
-    const [showModal, setShowModal] = useState(isDefaultOpen);
-    const [documentMounted, setDocumentMounted] = useState(false);
+    const [showModal, setShowModal] = useState<boolean>(isDefaultOpen);
+    const [documentMounted, setDocumentMounted] = useState<boolean>(false);
 
     // This hook takes an outside reference and injects
     // functions that are callable from the parent.

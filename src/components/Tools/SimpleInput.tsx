@@ -3,7 +3,7 @@ import { EditorJsPluginProps, createEditorJsPlugin } from "~/utils/toolUtils";
 
 type Props = {
   type: string;
-  value: any;
+  value: string;
   label: string;
   placeholder: string;
 };
@@ -13,10 +13,10 @@ export const SimpleInput: FunctionComponent<
 > = (props) => {
   const { dispatchData, value, placeholder, label, type } = props;
   const showEditModeByDefault = !label && !placeholder;
-  const [editMode, setEditMode] = useState(showEditModeByDefault);
-  const [labelValue, setLabel] = useState(label);
-  const [placeholderValue, setPlaceholder] = useState(label);
-  const [currentValue, setCurrentValue] = useState(value);
+  const [editMode, setEditMode] = useState<boolean>(showEditModeByDefault);
+  const [labelValue, setLabel] = useState<string>(label);
+  const [placeholderValue, setPlaceholder] = useState<string>(placeholder);
+  const [currentValue, setCurrentValue] = useState<string>(value);
 
   const body = {
     type,
@@ -61,7 +61,7 @@ export const SimpleInput: FunctionComponent<
       <div className="flex flex-col" key="unique">
         {!editMode && <label htmlFor="generic_input">{label}</label>}
         <input
-          className="border border-2 border-solid"
+          className="border-2 border-solid"
           name={"generic_input"}
           value={currentValue}
           placeholder={placeholder}

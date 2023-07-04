@@ -1,12 +1,11 @@
 import { StateCreator } from "zustand";
-import { usePromptBuilderStore } from "..";
-import { menuActions, menuContext, selection } from "~/utils/types";
+import { MenuContext, MenuActions, Selection } from "~/utils/types";
 import { Add, Run, Swap } from "~/utils/MenuActions";
 
 type State = {
-  menuContext: menuContext;
-  menuActions: menuActions;
-  currentSelection: selection;
+  menuContext: MenuContext;
+  menuActions: MenuActions;
+  currentSelection: Selection;
 };
 
 type Action = {
@@ -16,7 +15,7 @@ type Action = {
     endOffset: number,
     nodeBlockIndex: number
   ) => void;
-  changeContext: (arg: menuContext) => void;
+  changeContext: (arg: MenuContext) => void;
   reset: () => void;
 };
 
@@ -32,7 +31,7 @@ const initialState: State = {
   menuContext: "promptBuilderAdd",
 };
 
-function getMenuActionForContext(arg: menuContext) {
+function getMenuActionForContext(arg: MenuContext) {
   const sharedMenuItems = [Run];
   switch (arg) {
     case "formDesigner":

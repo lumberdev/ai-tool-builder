@@ -1,18 +1,19 @@
-import { ChangeEventHandler, FunctionComponent, useState } from "react";
+import { FunctionComponent, useState } from "react";
 import {
   EditorJsPluginProps,
   createEditorJsPlugin,
 } from "../../utils/toolUtils";
 import { nanoid } from "nanoid";
 
-type Props = {
-  value: string;
-  options: Array<{ value: string; id: string }>;
-};
-
 type OptionItem = { value: string; id: string };
 
-export function createOptionItem(value: string) {
+type Props = {
+  value: string;
+  options: OptionItem[];
+};
+
+
+export function createOptionItem(value: string): OptionItem {
   return { id: nanoid(), value };
 }
 

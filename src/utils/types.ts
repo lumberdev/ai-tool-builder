@@ -20,15 +20,15 @@ export class MenuEventAction {
   }
 }
 
-export type menuContext =
+export type MenuContext =
   | "formDesigner"
   | "promptBuilderSwap"
   | "promptBuilderAdd";
 
-export type menuActions = Array<MenuEventAction>;
+export type MenuActions = Array<MenuEventAction>;
 
 /** Highlight selection type */
-export type selection = {
+export type Selection = {
   selectedValue: string;
   startOffset: number;
   endOffset: number;

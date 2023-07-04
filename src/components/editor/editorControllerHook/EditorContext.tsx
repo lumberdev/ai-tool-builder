@@ -1,5 +1,6 @@
 import {
   MutableRefObject,
+  Ref,
   RefObject,
   useEffect,
   useRef,
@@ -22,9 +23,10 @@ export const useEditorController = () => {
   const { handleChangeCurrentSelection, currentSelection } =
     useContextMenuStoreData();
 
-  const [ready, setReady] = useState(false);
+  const [ready, setReady] = useState<boolean>(false);
 
-  const [_ref, setElementRef] = useState(editorElementRef);
+  const [_ref, setElementRef] = useState<Ref<HTMLInputElement>>(editorElementRef);
+
   useEffect(() => {
     if (!editorElementRef.current) return;
     setElementRef(editorElementRef);
@@ -133,7 +135,7 @@ const useFocusEditor = ({
   ref: RefObject<HTMLInputElement>;
   isReady: boolean;
 }) => {
-  const [elFocus, setElFocus] = useState(FOCUS);
+  const [elFocus, setElFocus] = useState<boolean>(FOCUS);
   useEffect(() => {
     const elEditor = ref.current;
     if (!elEditor || !isReady) return;
@@ -160,6 +162,13 @@ const useFocusEditor = ({
   return { elFocus };
 };
 
+type handleChangeCurrentSelection = (
+  arg: string,
+  ind0: number,
+  ind1: number,
+  nodeBlockIndex: number
+) => void;
+
 const useHighlightEditor = ({
   ref,
   isReady,
@@ -169,12 +178,7 @@ const useHighlightEditor = ({
   ref: MutableRefObject<EditorJS | undefined>;
   isReady: boolean;
   elFocus: boolean;
-  handleChangeCurrentSelection: (
-    arg: string,
-    ind0: number,
-    ind1: number,
-    nodeBlockIndex: number
-  ) => void;
+  handleChangeCurrentSelection: handleChangeCurrentSelection
 }) => {
   // Handle highlighting if editor is focused
   useEffect(() => {
@@ -186,9 +190,9 @@ const useHighlightEditor = ({
         const nodeBlockIndex = ref?.current?.blocks?.getCurrentBlockIndex();
         handleChangeCurrentSelection(
           selection?.toString() ?? "",
-          selection?.anchorOffset as number,
-          selection?.focusOffset as number,
-          nodeBlockIndex as number
+          selection?.anchorOffset ?? 0,
+          selection?.focusOffset ?? 0,
+          nodeBlockIndex ?? 0
         );
       }
     }
