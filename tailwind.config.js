@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       height: {
-        full: ["100dvh", "100vh"],
+        screen: ["100dvh", "100vh"],
       },
     },
   },
